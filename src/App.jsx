@@ -8,7 +8,7 @@ import Cart from "./Cart";
 import Contact from "./Contact";
 import Navbar from "./Navbar"; // ⬅ your separate navbar
 import "./Navbar.css";
-import Orders from "./orders";
+import Orders from "./Orders";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Registration from "./Registration";
