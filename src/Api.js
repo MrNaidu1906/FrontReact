@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create axios instance with base URL
 const apiurl = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "backend-six-gamma-63.vercel.app",
 });
 
 // Automatically attach Bearer Token
