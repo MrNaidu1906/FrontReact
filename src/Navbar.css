@@ -1,0 +1,118 @@
+/* Navbar Main */
+.navbar {
+  width: 100%;
+  height: 70px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #283e51;
+}
+
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* space between logo and text */
+}
+
+.logo-img {
+  width: 50px; /* adjust size */
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px; /* optional rounded corners */
+}
+
+.logo-text {
+  font-size: 26px;      /* large and visible */
+  font-weight: 900;     /* extra bold */
+  color: #000000;       /* black */
+  font-family: 'Poppins', 'Roboto', sans-serif; /* modern, professional font */
+  letter-spacing: 1px;  /* slightly spaced out letters */
+  text-transform: uppercase; /* optional: makes it stand out */
+}
+
+/* Timer on navbar */
+.timer-box {
+  font-size: 16px;
+  color: #2f2f2f;
+}
+
+/* Navigation Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  transition: 0.3s ease-in-out;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #444;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #283e51;
+  font-weight: bold;
+}
+
+/* Hamburger Menu */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.nav-toggle span {
+  width: 30px;
+  height: 3px;
+  background: #333;
+  border-radius: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    right: -100%;
+    background: white;
+    width: 230px;
+    border-radius: 10px 0 0 10px;
+    box-shadow: -2px 2px 12px rgba(0,0,0,0.2);
+    flex-direction: column;
+    padding: 20px;
+    gap: 18px;
+  }
+
+  .nav-links.open {
+    right: 0;
+  }
+
+  .timer-box {
+    display: none; /* Hide timer on small screens (optional) */
+  }
+}
+
