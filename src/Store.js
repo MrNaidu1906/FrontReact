@@ -1,6 +1,7 @@
 import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Cupons } from "./Cupons";
 import axios from "axios";
+import apiurl from "./Api";
 
 // ============================================================
 // 1. THUNKS / ASYNC ACTIONS
@@ -15,7 +16,7 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/products/register",
+        "/api/v1/products/register",
         userData
       );
       return response.data; // backend returns { message: "...", user: {...} }
@@ -35,7 +36,7 @@ export const loginUser = createAsyncThunk(
   async (credentials) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/products/login",
+        "/api/v1/products/login",
         credentials
       );
       return response.data;
@@ -50,8 +51,8 @@ export const loginUser = createAsyncThunk(
 export const placeOrder = createAsyncThunk(
   "orders/placeOrder",
   async (orderDetails) => {
-    const response = await axios.post(
-      "http://localhost:3000/api/v1/products/orders",
+    const response = await apiurl.post(
+      "/api/v1/products/orders",
       orderDetails
     );
     return response.data;
@@ -65,8 +66,8 @@ export const placeOrder = createAsyncThunk(
 export const getAllOrders = createAsyncThunk(
   "orders/getAll",
   async () => {
-    const response = await axios.get(
-      "http://localhost:3000/api/v1/products/orders"
+    const response = await apiurl.get(
+      "/api/v1/products/orders"
     );
     return response.data.data; // backend -> { data: [...] }
   }
@@ -78,8 +79,8 @@ export const getAllOrders = createAsyncThunk(
 export const fetchVegProducts = createAsyncThunk(
   "veg/fetchVegProducts",
   async () => {
-    const response = await axios.get(
-      "http://localhost:3000/api/v1/products/getVeg"
+    const response = await apiurl.get(
+      "/api/v1/products/getVeg"
     );
     return response.data;
   }
@@ -133,34 +134,49 @@ export const userSlice = createSlice({
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
     loading: false,
-    error: null
+    token: localStorage.getItem("token") || null,
+    user: null,
+    error: null,
   },
+
   reducers: {},
+
   extraReducers: (builder) => {
     builder
+
+      // ==============================================
+      // LOGIN PENDING
+      // ==============================================
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
+
+      // ==============================================
+      // LOGIN SUCCESS
+      // ==============================================
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
 
-        if (action.payload.success) {
-          state.user = action.payload.user;
-        } else {
-          state.error = action.payload.message;
-        }
+        // ⭐ SAVE TOKEN IN LOCAL STORAGE (Same as your teacher showed)
+        localStorage.setItem("token", action.payload.token);
+
+        state.error = null;
       })
-      .addCase(loginUser.rejected, (state) => {
+
+      // ==============================================
+      // LOGIN FAILED
+      // ==============================================
+      .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = "Login Failed";
+        state.user = null;
+        state.error = action.payload || "Login Failed";
       });
-  }
+  },
 });
-
-
 // ---------- Orders Slice (Place Order Status)
 const ordersSlice = createSlice({
   name: "orders",
